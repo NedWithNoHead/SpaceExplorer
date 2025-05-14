@@ -83,8 +83,6 @@ export default function AsteroidVisualizer({ asteroids, onSelectAsteroid }: Aste
             key={`asteroid-${orbit.id}`}
             className="absolute rounded-full shadow-md cursor-pointer"
             style={{ 
-              width: `${orbit.size}px`, 
-              height: `${orbit.size}px`,
               backgroundColor: orbit.color,
               left: '50%', 
               marginLeft: `-${orbit.size / 2}px`,

@@ -17,10 +17,11 @@ export default function MarsGallery() {
   // Format today's date for the date picker max value
   const today = new Date().toISOString().split('T')[0];
   
-  // Fetch Mars rover photos
+  // Fetch Mars rover photos with default parameters (enabled on mount)
   const { data: marsPhotos, isLoading, isError, refetch } = useQuery<MarsRoverPhoto[]>({
     queryKey: ['/api/mars/photos', selectedCamera, selectedDate],
-    enabled: false, // Don't fetch on mount
+    queryFn: () => fetchMarsPhotos(undefined, selectedDate || undefined, selectedCamera || undefined),
+    enabled: true, // Fetch on mount
   });
   
   // Pagination
@@ -145,10 +146,10 @@ export default function MarsGallery() {
             <p className="mt-2 text-muted-foreground">
               {selectedCamera || selectedDate 
                 ? "No photos match your filter criteria. Try different filters."
-                : "Select a camera or date to see Mars Rover photos."}
+                : "No Mars Rover photos available. Please try again later."}
             </p>
             <Button className="mt-4" onClick={applyFilters}>
-              {selectedCamera || selectedDate ? "Try Different Filters" : "Show Latest Photos"}
+              {selectedCamera || selectedDate ? "Try Different Filters" : "Retry Loading Photos"}
             </Button>
           </div>
         ) : (
