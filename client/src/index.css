@@ -118,6 +118,12 @@
   100% { transform: rotate(360deg) translateX(12px) rotate(-360deg); }
 }
 
+/* New improved animation for asteroid visualization */
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--orbit-distance, 100px)) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(var(--orbit-distance, 100px)) rotate(-360deg); }
+}
+
 .cosmic-pulse {
   animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

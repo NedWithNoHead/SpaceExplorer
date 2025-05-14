@@ -71,7 +71,7 @@ export default function HomePage() {
         {/* Persistent Navigation */}
         <Navigation />
         
-        <main className="flex-grow">
+        <main className="flex-grow pt-16">
           {/* APOD Section */}
           <div ref={apodRef} id="apod">
             <HeroSection />

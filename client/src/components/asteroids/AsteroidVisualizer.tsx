@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { AsteroidOrbit, NearEarthObject } from '@/types/nasa';
+import { calculateAvgDiameter } from '@/lib/utils';
 
 interface AsteroidVisualizerProps {
   asteroids: NearEarthObject[];
@@ -8,46 +10,27 @@ interface AsteroidVisualizerProps {
 }
 
 export default function AsteroidVisualizer({ asteroids, onSelectAsteroid }: AsteroidVisualizerProps) {
-  const [orbits, setOrbits] = useState<AsteroidOrbit[]>([]);
+  const [selectedOrbitIndex, setSelectedOrbitIndex] = useState<number | null>(null);
+  const [hoveredAsteroid, setHoveredAsteroid] = useState<NearEarthObject | null>(null);
+  const visibleAsteroids = asteroids.slice(0, 5);
   
-  // Generate orbit paths for visualization
-  useEffect(() => {
-    if (asteroids && asteroids.length > 0) {
-      const newOrbits = asteroids.slice(0, 5).map((asteroid, index) => {
-        // Generate different orbit sizes based on asteroid data
-        const size = 2 + Math.round(asteroid.diameterMaxKm / 100);
-        const orbitSize = 64 + (index * 9); // Percentage of container
-        
-        // Determine color based on hazard potential
-        let color = '#10b981'; // Green for safe
-        if (asteroid.isPotentiallyHazardous) {
-          color = '#ef4444'; // Red for hazardous
-        } else if (asteroid.diameterMaxKm > 500) {
-          color = '#f59e0b'; // Amber for large
-        }
-        
-        // Animation duration based on size
-        const animationDuration = 15 + (index * 5);
-        
-        return {
-          id: asteroid.id,
-          size,
-          color,
-          animationDuration,
-          orbitWidth: `${orbitSize}%`,
-          orbitHeight: `${orbitSize}%`
-        };
-      });
-      
-      setOrbits(newOrbits);
-    }
-  }, [asteroids]);
+  // Handle asteroid selection
+  const handleAsteroidClick = (asteroid: NearEarthObject, index: number) => {
+    setSelectedOrbitIndex(index);
+    onSelectAsteroid(asteroid);
+  };
 
   return (
     <Card className="lg:col-span-7 bg-gray bg-opacity-30 rounded-xl p-6 border border-gray-800 h-96 flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 flex items-center justify-center">
         {/* Earth representation */}
-        <div className="w-32 h-32 rounded-full bg-blue-500 relative flex items-center justify-center shadow-lg" style={{ background: 'radial-gradient(circle, #1e88e5, #0d47a1)' }}>
+        <div className="w-32 h-32 rounded-full bg-blue-500 relative flex items-center justify-center shadow-lg z-30" 
+             style={{ background: 'radial-gradient(circle, #1e88e5, #0d47a1)' }}>
+          {/* Earth label */}
+          <div className="absolute -bottom-8 text-white text-sm font-medium bg-blue-900 px-2 py-0.5 rounded-full">
+            Earth
+          </div>
+          
           {/* Earth's continents representation */}
           <div className="absolute inset-0 opacity-40 rounded-full" style={{ 
             backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ffffff' d='M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1 4.5a.5.5 0 11-1 0 .5.5 0 011 0zm-6 2a.5.5 0 11-1 0 .5.5 0 011 0zm2 .5a1 1 0 11-2 0 1 1 0 012 0zm8-1a1 1 0 11-2 0 1 1 0 012 0zm2-1a.5.5 0 11-1 0 .5.5 0 011 0zm0 3a.5.5 0 11-1 0 .5.5 0 011 0zm0 3a.5.5 0 11-1 0 .5.5 0 011 0zm0 3a.5.5 0 11-1 0 .5.5 0 011 0zm-2 2a1 1 0 11-2 0 1 1 0 012 0zm-6-6a1 1 0 11-2 0 1 1 0 012 0zm-3 5a1 1 0 11-2 0 1 1 0 012 0z'/%3E%3C/svg%3E")`,
@@ -55,49 +38,112 @@ export default function AsteroidVisualizer({ asteroids, onSelectAsteroid }: Aste
           }}></div>
           
           {/* Moon orbit */}
-          <div className="absolute w-full h-full rounded-full border border-gray-500 border-dashed opacity-30" style={{ width: '180%', height: '180%' }}></div>
+          <div className="absolute w-full h-full rounded-full border border-gray-500 border-dashed opacity-30" 
+               style={{ width: '180%', height: '180%' }}></div>
           
           {/* Moon */}
           <div className="absolute w-6 h-6 bg-gray-300 rounded-full shadow-md" style={{ 
             left: '50%', 
             marginLeft: '-3px', 
             animation: 'orbit 15s linear infinite'
-          }}></div>
+          }}>
+            <div className="absolute -bottom-5 text-white text-xs bg-gray-700 px-1 rounded">Moon</div>
+          </div>
         </div>
 
-        {/* Asteroid orbits */}
-        {[...Array(5)].map((_, i) => (
-          <div 
-            key={`orbit-${i}`}
-            className="absolute border border-gray-600 rounded-full border-dashed opacity-20" 
-            style={{ 
-              width: `${64 + (i * 9)}%`, 
-              height: `${64 + (i * 9)}%`
-            }}
-          ></div>
-        ))}
-
-        {/* Asteroids */}
-        {orbits.map((orbit, index) => (
-          <div 
-            key={`asteroid-${orbit.id}`}
-            className="absolute rounded-full shadow-md cursor-pointer"
-            style={{ 
-              backgroundColor: orbit.color,
-              left: '50%', 
-              marginLeft: `-${orbit.size / 2}px`,
-              width: orbit.orbitWidth,
-              height: orbit.orbitHeight,
-              animation: `orbit ${orbit.animationDuration}s linear infinite`,
-              animationDelay: `${index * -3}s`
-            }}
-            onClick={() => onSelectAsteroid(asteroids.find(a => a.id === orbit.id) || asteroids[0])}
-          ></div>
-        ))}
+        {/* Asteroid orbits with labels */}
+        {visibleAsteroids.map((asteroid, index) => {
+          // Determine orbit size based on index
+          const orbitSize = 64 + (index * 9);
+          
+          // Determine asteroid size based on diameter
+          const diameter = asteroid.diameterMaxKm;
+          const size = 8 + Math.min(Math.round(diameter / 50), 20);
+          
+          // Determine color based on hazard potential
+          let color = '#10b981'; // Green for safe
+          let status = 'Safe';
+          
+          if (asteroid.isPotentiallyHazardous) {
+            color = '#ef4444'; // Red for hazardous
+            status = 'Hazardous';
+          } else if (diameter > 500) {
+            color = '#f59e0b'; // Amber for large
+            status = 'Large';
+          }
+          
+          // Animation parameters
+          const animationDuration = 15 + (index * 3);
+          const position = 50 + (index * 10) % 360; // Random position on orbit
+          
+          const isSelected = selectedOrbitIndex === index;
+          const isHovered = hoveredAsteroid?.id === asteroid.id;
+          
+          return (
+            <div key={`asteroid-system-${asteroid.id}`}>
+              {/* Orbit path */}
+              <div 
+                className={`absolute border rounded-full border-dashed transition-all duration-300 ${isSelected ? 'border-white opacity-60' : 'border-gray-600 opacity-20'}`} 
+                style={{ 
+                  width: `${orbitSize}%`, 
+                  height: `${orbitSize}%`
+                }}
+              ></div>
+              
+              {/* Asteroid */}
+              <div 
+                className={`absolute rounded-full shadow-lg cursor-pointer z-20 transition-all duration-300
+                           hover:shadow-white hover:shadow-sm ${isSelected ? 'shadow-white ring-2 ring-white' : ''}`}
+                style={{ 
+                  width: `${size}px`, 
+                  height: `${size}px`,
+                  backgroundColor: color,
+                  '--orbit-distance': `${orbitSize / 2}%`,
+                  transform: `rotate(${position}deg) translateX(${orbitSize / 2}%) rotate(-${position}deg)`,
+                  animation: `orbit ${animationDuration}s linear infinite`,
+                  animationPlayState: isSelected || isHovered ? 'paused' : 'running'
+                } as React.CSSProperties}
+                onClick={() => handleAsteroidClick(asteroid, index)}
+                onMouseEnter={() => setHoveredAsteroid(asteroid)}
+                onMouseLeave={() => setHoveredAsteroid(null)}
+              >
+                {/* Tooltip on hover/select */}
+                {(isHovered || isSelected) && (
+                  <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 bg-space-black bg-opacity-90 p-2 rounded text-white text-xs whitespace-nowrap z-50">
+                    <div className="font-bold">{asteroid.name}</div>
+                    <div className="text-xs mt-1">
+                      <span className={`px-1.5 py-0.5 rounded ${
+                        status === 'Hazardous' ? 'bg-red-900 text-red-100' : 
+                        status === 'Large' ? 'bg-amber-900 text-amber-100' : 
+                        'bg-green-900 text-green-100'
+                      }`}>
+                        {status}
+                      </span>
+                    </div>
+                    <div className="mt-1 text-[10px]">Diameter: {calculateAvgDiameter(asteroid.diameterMinKm, asteroid.diameterMaxKm)}</div>
+                    <div className="text-[10px] text-gray-300 mt-0.5">Click to select</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 bg-space-black bg-opacity-80 p-3 text-xs font-mono text-muted-foreground">
-        Showing {asteroids ? Math.min(asteroids.length, 5) : 0} near-Earth objects | Interactive: Click on any asteroid to view details
+      <div className="absolute bottom-0 left-0 right-0 bg-space-black bg-opacity-80 p-3 flex justify-between items-center">
+        <div className="text-xs font-mono text-muted-foreground">
+          Showing {visibleAsteroids.length} near-Earth objects
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="w-3 h-3 rounded-full bg-red-500"></span>
+          <span className="text-xs text-white mr-2">Hazardous</span>
+          
+          <span className="w-3 h-3 rounded-full bg-amber-500"></span>
+          <span className="text-xs text-white mr-2">Large</span>
+          
+          <span className="w-3 h-3 rounded-full bg-green-500"></span>
+          <span className="text-xs text-white">Safe</span>
+        </div>
       </div>
     </Card>
   );
