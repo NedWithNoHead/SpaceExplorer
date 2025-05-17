@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="bg-space-black bg-opacity-80 border-t border-gray-800 py-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="flex flex-col md:flex-row justify-between items-start">
           {/* Left side with logo and description */}
           <div className="w-full md:w-auto mb-6 md:mb-0">
             <Link href="/" className="flex items-center mb-4">
@@ -23,36 +23,11 @@ export default function Footer() {
             <p className="text-muted-foreground text-sm mb-2 max-w-md">
               Explore the wonders of space through NASA's open APIs. Discover daily astronomy pictures, Mars rover photos, and asteroid data.
             </p>
-            
-            {/* Hidden on larger screens, mobile only */}
-            <div className="md:hidden mt-8 text-left">
-              <div className="flex items-center mb-3 justify-start">
-                <span className="text-white text-sm mr-2">Developed by:</span>
-                <a href="https://tinle.xyz/" target="_blank" rel="noopener noreferrer" 
-                   className="text-primary hover:text-blue-400 font-medium text-sm transition-colors mr-2">
-                  Tin Le
-                </a>
-                <a href="https://www.linkedin.com/in/tintrungle/" target="_blank" rel="noopener noreferrer" 
-                   className="text-muted-foreground hover:text-blue-500 transition-colors mx-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                    <rect x="2" y="9" width="4" height="12"></rect>
-                    <circle cx="4" cy="4" r="2"></circle>
-                  </svg>
-                </a>
-                <a href="https://github.com/NedWithNoHead/SpaceExplorer" target="_blank" rel="noopener noreferrer" 
-                   className="text-muted-foreground hover:text-gray-400 transition-colors mx-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                  </svg>
-                </a>
-              </div>
-            </div>
           </div>
           
           {/* Right side with developer information (desktop only) */}
-          <div className="hidden md:flex md:flex-col items-center md:items-end">
-            <div className="flex items-center mb-2">
+          <div className="hidden md:flex md:flex-col items-end">
+            <div className="flex items-center mb-3">
               <span className="text-white text-sm mr-2">Developed by:</span>
               <a href="https://tinle.xyz/" target="_blank" rel="noopener noreferrer" 
                  className="text-primary hover:text-blue-400 font-medium text-sm transition-colors mr-2">
@@ -74,25 +49,47 @@ export default function Footer() {
               </a>
             </div>
             
-            <p className="text-muted-foreground text-sm text-right">
+            <p className="text-muted-foreground text-sm text-right mt-2">
               Powered by <a href="https://api.nasa.gov/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">NASA Open APIs</a>
             </p>
             
-            <p className="text-muted-foreground text-sm text-right mt-1">
+            <p className="text-muted-foreground text-sm text-right mt-2">
               © {new Date().getFullYear()} Space Explorer. All rights reserved.
             </p>
+          </div>
+        </div>
+        
+        {/* Mobile-only footer information (displayed as rows with equal spacing) */}
+        <div className="md:hidden space-y-6 mt-8">
+          <div className="flex items-center">
+            <span className="text-white text-sm mr-2">Developed by:</span>
+            <a href="https://tinle.xyz/" target="_blank" rel="noopener noreferrer" 
+               className="text-primary hover:text-blue-400 font-medium text-sm transition-colors mr-2">
+              Tin Le
+            </a>
+            <a href="https://www.linkedin.com/in/tintrungle/" target="_blank" rel="noopener noreferrer" 
+               className="text-muted-foreground hover:text-blue-500 transition-colors mx-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <a href="https://github.com/NedWithNoHead/SpaceExplorer" target="_blank" rel="noopener noreferrer" 
+               className="text-muted-foreground hover:text-gray-400 transition-colors mx-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+            </a>
           </div>
           
-          {/* Mobile-only footer information */}
-          <div className="md:hidden w-full">
-            <p className="text-muted-foreground text-sm text-left mt-8">
-              Powered by <a href="https://api.nasa.gov/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">NASA Open APIs</a>
-            </p>
-            
-            <p className="text-muted-foreground text-sm text-left mt-2">
-              © {new Date().getFullYear()} Space Explorer. All rights reserved.
-            </p>
-          </div>
+          <p className="text-muted-foreground text-sm">
+            Powered by <a href="https://api.nasa.gov/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">NASA Open APIs</a>
+          </p>
+          
+          <p className="text-muted-foreground text-sm">
+            © {new Date().getFullYear()} Space Explorer. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
