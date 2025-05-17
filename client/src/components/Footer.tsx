@@ -27,7 +27,7 @@ export default function Footer() {
           
           {/* Right side with developer information (desktop only) */}
           <div className="hidden md:flex md:flex-col items-end">
-            <div className="flex items-center mb-6">
+            <div className="flex items-center mb-3">
               <span className="text-white text-sm mr-2">Developed by:</span>
               <a href="https://tinle.xyz/" target="_blank" rel="noopener noreferrer" 
                  className="text-primary hover:text-blue-400 font-medium text-sm transition-colors mr-2">
@@ -49,7 +49,7 @@ export default function Footer() {
               </a>
             </div>
             
-            <p className="text-muted-foreground text-sm text-right mb-6">
+            <p className="text-muted-foreground text-sm text-right mb-3">
               Powered by <a href="https://api.nasa.gov/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">NASA Open APIs</a>
             </p>
             
