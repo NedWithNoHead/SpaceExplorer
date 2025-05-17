@@ -85,11 +85,11 @@ export default function Footer() {
           
           {/* Mobile-only footer information */}
           <div className="md:hidden w-full">
-            <p className="text-muted-foreground text-sm text-left mt-4">
+            <p className="text-muted-foreground text-sm text-left mt-8">
               Powered by <a href="https://api.nasa.gov/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">NASA Open APIs</a>
             </p>
             
-            <p className="text-muted-foreground text-sm text-left mt-1">
+            <p className="text-muted-foreground text-sm text-left mt-2">
               © {new Date().getFullYear()} Space Explorer. All rights reserved.
             </p>
           </div>
