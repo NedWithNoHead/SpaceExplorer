@@ -6,8 +6,8 @@ export default function Footer() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start">
           {/* Left side with logo and description */}
-          <div className="w-full md:w-auto mb-6 md:mb-0">
-            <Link href="/" className="flex items-center mb-4">
+          <div className="w-full md:w-auto mb-6 md:mb-0 flex flex-col items-center md:items-start">
+            <Link href="/" className="flex items-center mb-4 justify-center md:justify-start">
               <svg xmlns="http://www.w3.org/2000/svg" className="text-primary h-6 w-6 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
                 <circle cx="12" cy="12" r="4"></circle>
@@ -20,7 +20,7 @@ export default function Footer() {
               </h2>
             </Link>
             
-            <p className="text-muted-foreground text-sm mb-2 max-w-md">
+            <p className="text-muted-foreground text-sm mb-2 max-w-md text-center md:text-left">
               Explore the wonders of space through NASA's open APIs. Discover daily astronomy pictures, Mars rover photos, and asteroid data.
             </p>
           </div>
