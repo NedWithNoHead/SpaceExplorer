@@ -25,8 +25,8 @@ export default function Footer() {
             </p>
             
             {/* Hidden on larger screens, mobile only */}
-            <div className="md:hidden mt-4 text-left">
-              <div className="flex items-center mb-2 justify-start">
+            <div className="md:hidden mt-8 text-left">
+              <div className="flex items-center mb-3 justify-start">
                 <span className="text-white text-sm mr-2">Developed by:</span>
                 <a href="https://tinle.xyz/" target="_blank" rel="noopener noreferrer" 
                    className="text-primary hover:text-blue-400 font-medium text-sm transition-colors mr-2">
