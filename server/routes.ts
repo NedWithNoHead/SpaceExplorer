@@ -38,23 +38,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // APOD range/search route
   app.get("/api/apod/search", async (req: Request, res: Response) => {
     try {
-      const { start_date, end_date } = req.query;
+      const { startDate, endDate, start_date, end_date } = req.query;
       
-      if (!start_date) {
-        return res.status(400).json({ message: "start_date is required" });
+      // Support both camelCase and snake_case parameters for compatibility
+      const effectiveStartDate = (startDate || start_date) as string;
+      const effectiveEndDate = (endDate || end_date) as string;
+      
+      if (!effectiveStartDate) {
+        return res.status(400).json({ message: "startDate is required" });
       }
       
-      const startDate = start_date as string;
-      const endDate = (end_date as string) || startDate;
+      const finalEndDate = effectiveEndDate || effectiveStartDate;
       
       // Try to get from storage first
-      const storedApods = await storage.getApodRange(startDate, endDate);
+      const storedApods = await storage.getApodRange(
+        effectiveStartDate as string, 
+        finalEndDate as string
+      );
       if (storedApods.length > 0) {
         return res.json(storedApods);
       }
       
       // Fetch from NASA API
-      const apodData = await getApodRange(startDate, endDate);
+      const apodData = await getApodRange(
+        effectiveStartDate as string, 
+        finalEndDate as string
+      );
       
       // Save all APODs to storage
       const savedApods = await Promise.all(

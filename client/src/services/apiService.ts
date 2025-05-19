@@ -9,7 +9,7 @@ export const fetchApod = async (date?: string): Promise<ApodResponse> => {
 };
 
 export const searchApod = async (startDate: string, endDate?: string): Promise<ApodResponse[]> => {
-  const endpoint = `/api/apod/search?start_date=${startDate}${endDate ? `&end_date=${endDate}` : ''}`;
+  const endpoint = `/api/apod/search?startDate=${startDate}${endDate ? `&endDate=${endDate}` : ''}`;
   const response = await apiRequest('GET', endpoint);
   return response.json();
 };
