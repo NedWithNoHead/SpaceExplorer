@@ -7,6 +7,14 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { ApodResponse, MarsRoverPhoto, AsteroidData } from '@/types/nasa';
 import { formatDate, truncateText } from '@/lib/utils';
 
+// Helper function for special APOD cases
+const getBackupContentUrl = (apod: ApodResponse) => {
+  if (apod.title === "Charon Flyover from New Horizons") {
+    return "https://apod.nasa.gov/apod/image/2505/CharonFlyover_NewHorizons.mp4";
+  }
+  return null;
+};
+
 interface SearchResultsProps {
   data: any;
   isLoading: boolean;
@@ -195,13 +203,13 @@ export default function SearchResults({
                           alt={apod.title} 
                           className="w-full max-h-[60vh] object-contain"
                         />
-                      ) : apod.url && apod.url.includes('.mp4') ? (
+                      ) : apod.mediaType === 'video' || (apod.url && apod.url.includes('.mp4')) ? (
                         <video 
                           controls
                           autoPlay
                           className="w-full aspect-video"
                         >
-                          <source src={apod.url} type="video/mp4" />
+                          <source src={getBackupContentUrl(apod) || apod.url} type="video/mp4" />
                           Your browser does not support the video tag.
                         </video>
                       ) : (
