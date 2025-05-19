@@ -46,7 +46,7 @@ export default function HeroSection() {
   // Let's provide the correct URL for this specific content
   const getBackupContentUrl = () => {
     if (apod?.title === "Charon Flyover from New Horizons") {
-      return "https://www.youtube.com/embed/FV5T6Kb0T8E"; // Known URL for this specific content
+      return "https://apod.nasa.gov/apod/image/2505/CharonFlyover_NewHorizons.mp4"; // Direct MP4 URL from NASA
     }
     return null;
   };
@@ -85,14 +85,26 @@ export default function HeroSection() {
               </div>
             ) : shouldEmbed ? (
               <div className="w-full h-96">
-                <iframe 
-                  src={embedUrl} 
-                  title={apod.title}
-                  className="w-full h-full object-cover"
-                  allowFullScreen
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                ></iframe>
+                {embedUrl && embedUrl.includes('.mp4') ? (
+                  <video 
+                    src={embedUrl}
+                    title={apod?.title || 'NASA video'}
+                    className="w-full h-full object-cover"
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                  />
+                ) : (
+                  <iframe 
+                    src={embedUrl} 
+                    title={apod?.title || 'NASA content'}
+                    className="w-full h-full object-cover"
+                    allowFullScreen
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  ></iframe>
+                )}
               </div>
             ) : hasValidContent ? (
               <img 
