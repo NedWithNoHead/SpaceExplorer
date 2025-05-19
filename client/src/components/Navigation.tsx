@@ -1,20 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('apod');
+  const [location, navigate] = useLocation();
   
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
   
+  const isHomePage = location === '/';
+  
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    
+    // If we're not on the homepage, navigate there first
+    if (!isHomePage) {
+      navigate('/');
+      // Need to wait for navigation to complete before scrolling
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      // If already on homepage, just scroll
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
+    
     setMobileMenuOpen(false);
   };
 
@@ -24,10 +43,12 @@ export default function Navigation() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <button 
-                onClick={() => scrollToSection('apod')}
-                className="flex items-center"
-              >
+              <Link href="/" onClick={(e) => {
+                if (isHomePage) {
+                  e.preventDefault();
+                  scrollToSection('apod');
+                }
+              }} className="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="text-primary h-6 w-6 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <circle cx="12" cy="12" r="4"></circle>
@@ -38,7 +59,7 @@ export default function Navigation() {
                 <h1 className="text-xl font-bold tracking-wider text-white">
                   SPACE<span className="text-primary">EXPLORER</span>
                 </h1>
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -85,7 +106,7 @@ export default function Navigation() {
                 </svg>
                 Asteroids
               </button>
-              <a 
+              <Link 
                 href="/search"
                 className="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors flex items-center"
               >
@@ -94,7 +115,7 @@ export default function Navigation() {
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
                 Search
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -146,7 +167,7 @@ export default function Navigation() {
             </svg>
             Asteroids
           </button>
-          <a 
+          <Link 
             href="/search"
             className="w-full text-left bg-primary hover:bg-blue-700 text-white px-3 py-2 rounded-md text-base font-medium transition-colors mt-2 block"
           >
@@ -155,7 +176,7 @@ export default function Navigation() {
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
             Search
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
