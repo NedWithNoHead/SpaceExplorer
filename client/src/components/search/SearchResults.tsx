@@ -203,13 +203,23 @@ export default function SearchResults({
                           alt={apod.title} 
                           className="w-full max-h-[60vh] object-contain"
                         />
+                      ) : apod.title === "Charon Flyover from New Horizons" ? (
+                        // Hard-coded special case for the Charon Flyover video
+                        <video 
+                          src="https://apod.nasa.gov/apod/image/2505/CharonFlyover_NewHorizons.mp4"
+                          controls
+                          autoPlay
+                          className="w-full aspect-video"
+                        >
+                          Your browser does not support the video tag.
+                        </video>
                       ) : apod.mediaType === 'video' || (apod.url && apod.url.includes('.mp4')) ? (
                         <video 
                           controls
                           autoPlay
                           className="w-full aspect-video"
                         >
-                          <source src={getBackupContentUrl(apod) || apod.url} type="video/mp4" />
+                          <source src={apod.url} type="video/mp4" />
                           Your browser does not support the video tag.
                         </video>
                       ) : (
