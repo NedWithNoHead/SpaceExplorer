@@ -23,11 +23,11 @@ export default function AsteroidVisualizer({ asteroids, onSelectAsteroid }: Aste
   return (
     <Card className="lg:col-span-7 bg-gray bg-opacity-30 rounded-xl p-6 border border-gray-800 h-96 flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 flex items-center justify-center">
-        {/* Earth representation */}
-        <div className="w-32 h-32 rounded-full bg-blue-500 relative flex items-center justify-center shadow-lg z-30" 
+        {/* Earth representation - smaller size */}
+        <div className="w-20 h-20 rounded-full bg-blue-500 relative flex items-center justify-center shadow-lg z-30" 
              style={{ background: 'radial-gradient(circle, #1e88e5, #0d47a1)' }}>
           {/* Earth label */}
-          <div className="absolute -bottom-8 text-white text-sm font-medium bg-blue-900 px-2 py-0.5 rounded-full">
+          <div className="absolute -bottom-6 text-white text-xs font-medium bg-blue-900 px-2 py-0.5 rounded-full">
             Earth
           </div>
           
@@ -39,26 +39,26 @@ export default function AsteroidVisualizer({ asteroids, onSelectAsteroid }: Aste
           
           {/* Moon orbit */}
           <div className="absolute w-full h-full rounded-full border border-gray-500 border-dashed opacity-30" 
-               style={{ width: '180%', height: '180%' }}></div>
+               style={{ width: '160%', height: '160%' }}></div>
           
           {/* Moon */}
-          <div className="absolute w-6 h-6 bg-gray-300 rounded-full shadow-md" style={{ 
+          <div className="absolute w-4 h-4 bg-gray-300 rounded-full shadow-md" style={{ 
             left: '50%', 
-            marginLeft: '-3px', 
+            marginLeft: '-2px', 
             animation: 'orbit 15s linear infinite'
           }}>
-            <div className="absolute -bottom-5 text-white text-xs bg-gray-700 px-1 rounded">Moon</div>
+            <div className="absolute -bottom-4 text-white text-[10px] bg-gray-700 px-1 rounded">Moon</div>
           </div>
         </div>
 
-        {/* Asteroid orbits with labels */}
+        {/* Asteroid orbits with labels - more spread out */}
         {visibleAsteroids.map((asteroid, index) => {
-          // Determine orbit size based on index
-          const orbitSize = 64 + (index * 9);
+          // Determine orbit size based on index - more spread out orbits
+          const orbitSize = 50 + (index * 20); // Wider spacing between orbits
           
-          // Determine asteroid size based on diameter
+          // Determine asteroid size based on diameter - scaled appropriately
           const diameter = asteroid.diameterMaxKm;
-          const size = 8 + Math.min(Math.round(diameter / 50), 20);
+          const size = 6 + Math.min(Math.round(diameter / 80), 16); // Slightly smaller overall
           
           // Determine color based on hazard potential
           let color = '#10b981'; // Green for safe
@@ -72,9 +72,9 @@ export default function AsteroidVisualizer({ asteroids, onSelectAsteroid }: Aste
             status = 'Large';
           }
           
-          // Animation parameters
-          const animationDuration = 15 + (index * 3);
-          const position = 50 + (index * 10) % 360; // Random position on orbit
+          // Animation parameters - more varied and faster speeds
+          const animationDuration = 10 + (index * 5); // More variation in speeds
+          const position = Math.floor(Math.random() * 360); // Randomized starting positions
           
           const isSelected = selectedOrbitIndex === index;
           const isHovered = hoveredAsteroid?.id === asteroid.id;
