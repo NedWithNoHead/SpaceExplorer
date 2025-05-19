@@ -12,8 +12,36 @@ export default function HeroSection() {
     queryKey: ['/api/apod'],
   });
 
-  // If the image is not available, use a video or default image
+  // Check if the media is an embeddable video content
   const isVideo = apod?.mediaType === 'video';
+  const isOtherMedia = apod?.mediaType === 'other';
+  
+  // Function to handle different media types
+  const isYouTubeUrl = (url: string) => {
+    return url.includes('youtube.com') || url.includes('youtu.be');
+  };
+  
+  // Extract YouTube video ID from URL for proper embedding
+  const getYouTubeEmbedUrl = (url: string) => {
+    if (url.includes('youtube.com/embed/')) {
+      return url; // Already an embed URL
+    }
+    
+    let videoId = '';
+    
+    if (url.includes('youtube.com/watch')) {
+      const urlParams = new URL(url).searchParams;
+      videoId = urlParams.get('v') || '';
+    } else if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
+    }
+    
+    return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+  };
+  
+  // Determine if content should be embedded (videos and certain other media)
+  const shouldEmbed = isVideo || (isOtherMedia && apod?.url && isYouTubeUrl(apod.url));
+  const embedUrl = shouldEmbed && apod?.url ? getYouTubeEmbedUrl(apod.url) : '';
   
   return (
     <section id="apod" className="pt-8 pb-16">
@@ -37,13 +65,15 @@ export default function HeroSection() {
               <div className="w-full h-96 flex items-center justify-center bg-gray-900">
                 <p className="text-white">Failed to load APOD. Please try again later.</p>
               </div>
-            ) : isVideo ? (
+            ) : shouldEmbed ? (
               <div className="w-full h-96">
                 <iframe 
-                  src={apod.url} 
+                  src={embedUrl} 
                   title={apod.title}
                   className="w-full h-full object-cover"
                   allowFullScreen
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 ></iframe>
               </div>
             ) : (
