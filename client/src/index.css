@@ -18,8 +18,8 @@
 /* Earth - prominent and centered */
 .earth {
   position: absolute;
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   background: radial-gradient(circle, #1e88e5, #0d47a1);
   border-radius: 50%;
   box-shadow: 0 0 40px 15px rgba(59, 130, 246, 0.5);
@@ -57,8 +57,8 @@
 /* Moon orbit path */
 .moon-orbit-path {
   position: absolute;
-  width: 310px;
-  height: 310px;
+  width: 340px;
+  height: 340px;
   border: 1px dashed rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   top: 50%;
@@ -70,11 +70,11 @@
 /* Moon */
 .moon {
   position: absolute;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
   z-index: 40;
   top: 50%;
   left: 50%;
@@ -91,16 +91,18 @@
 
 .moon-label {
   position: absolute;
-  top: -18px;
+  bottom: -25px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(100, 100, 100, 0.8);
+  background-color: rgba(100, 100, 100, 0.9);
   color: white;
-  padding: 1px 6px;
-  border-radius: 8px;
-  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
   white-space: nowrap;
   z-index: 40;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
 /* Asteroid styling */
@@ -145,8 +147,8 @@
 }
 
 @keyframes moon-orbit {
-  0% { transform: translate(-50%, -50%) rotate(0deg) translate(155px) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg) translate(155px) rotate(-360deg); }
+  0% { transform: translate(-50%, -50%) rotate(0deg) translate(170px) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg) translate(170px) rotate(-360deg); }
 }
 
 /* Asteroid orbits - varying distances and starting positions */
