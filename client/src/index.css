@@ -73,12 +73,19 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+  overflow: visible;
   z-index: 40;
   top: 50%;
   left: 50%;
   animation: moon-orbit 30s linear infinite;
+}
+
+.moon-texture {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
   background: linear-gradient(
     135deg, 
     #f1f5f9 0%, 
@@ -87,6 +94,7 @@
     #64748b 55%, 
     #475569 100%
   );
+  overflow: hidden;
 }
 
 .moon-label {
@@ -103,6 +111,22 @@
   white-space: nowrap;
   z-index: 40;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.moon-orbit-label {
+  position: absolute;
+  top: -30px;
+  right: -40px;
+  background-color: rgba(80, 80, 100, 0.8);
+  color: #e2e8f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-style: italic;
+  white-space: nowrap;
+  z-index: 45;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+  transform: rotate(-15deg);
 }
 
 /* Asteroid styling */
