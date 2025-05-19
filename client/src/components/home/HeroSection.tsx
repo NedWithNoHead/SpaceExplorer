@@ -182,8 +182,8 @@ export default function HeroSection() {
 
           {/* APOD Archive Search */}
           <div className="mt-8 text-center">
-            <Link href="/search?category=apod" passHref>
-              <Button variant="outline" size="lg" className="border-muted-foreground hover:border-amber-400">
+            <Button asChild variant="outline" size="lg" className="border-muted-foreground hover:border-amber-400">
+              <Link href="/search?category=apod">
                 <div className="flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="17 1 21 5 17 9"></polyline>
@@ -197,8 +197,8 @@ export default function HeroSection() {
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
                 </div>
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
