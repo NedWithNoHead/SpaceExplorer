@@ -37,8 +37,8 @@ export default function AsteroidVisualizer({ asteroids, onSelectAsteroid }: Aste
           </div>
         </div>
         
-        {/* Moon orbit - outside NEO objects */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[240px] h-[240px] rounded-full border border-gray-500 border-dashed opacity-20"></div>
+        {/* Moon orbit */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full border border-gray-500 border-dashed opacity-20"></div>
         
         {/* Moon - outside NEO objects */}
         <div className="moon">
@@ -52,8 +52,8 @@ export default function AsteroidVisualizer({ asteroids, onSelectAsteroid }: Aste
         
         {/* Asteroid orbits - between Earth and Moon */}
         {visibleAsteroids.map((asteroid, index) => {
-          // Calculate orbit size - between Earth and Moon - more compact
-          const orbitSize = 60 + (index * 15); 
+          // Calculate orbit size - more compact to ensure all are in frame
+          const orbitSize = 40 + (index * 15); 
           
           return (
             <div 
