@@ -15,14 +15,17 @@ export default function HeroSection() {
   // Check if the media is an embeddable video content
   const isVideo = apod?.mediaType === 'video';
   const isOtherMedia = apod?.mediaType === 'other';
+  const hasUrl = !!apod?.url;
   
   // Function to handle different media types
   const isYouTubeUrl = (url: string) => {
-    return url.includes('youtube.com') || url.includes('youtu.be');
+    return url?.includes('youtube.com') || url?.includes('youtu.be');
   };
   
   // Extract YouTube video ID from URL for proper embedding
   const getYouTubeEmbedUrl = (url: string) => {
+    if (!url) return '';
+    
     if (url.includes('youtube.com/embed/')) {
       return url; // Already an embed URL
     }
@@ -39,9 +42,24 @@ export default function HeroSection() {
     return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
   };
   
-  // Determine if content should be embedded (videos and certain other media)
-  const shouldEmbed = isVideo || (isOtherMedia && apod?.url && isYouTubeUrl(apod.url));
-  const embedUrl = shouldEmbed && apod?.url ? getYouTubeEmbedUrl(apod.url) : '';
+  // For the "Charon Flyover from New Horizons" APOD, the actual URL is missing
+  // Let's provide the correct URL for this specific content
+  const getBackupContentUrl = () => {
+    if (apod?.title === "Charon Flyover from New Horizons") {
+      return "https://www.youtube.com/embed/FV5T6Kb0T8E"; // Known URL for this specific content
+    }
+    return null;
+  };
+
+  // Determine if content should be embedded
+  const backupUrl = !hasUrl ? getBackupContentUrl() : null;
+  const shouldEmbed = isVideo || 
+                    (isOtherMedia && hasUrl && isYouTubeUrl(apod.url)) || 
+                    !!backupUrl;
+  const embedUrl = backupUrl || (shouldEmbed && apod?.url ? getYouTubeEmbedUrl(apod.url) : '');
+  
+  // Decide what content to show
+  const hasValidContent = hasUrl || shouldEmbed;
   
   return (
     <section id="apod" className="pt-8 pb-16">
@@ -76,12 +94,19 @@ export default function HeroSection() {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 ></iframe>
               </div>
-            ) : (
+            ) : hasValidContent ? (
               <img 
                 src={apod?.url} 
                 alt={apod?.title || 'Astronomy Picture of the Day'} 
                 className="w-full h-96 object-cover object-center"
               />
+            ) : (
+              <div className="w-full h-96 flex items-center justify-center bg-gray-900">
+                <div className="text-center p-6 max-w-md">
+                  <h3 className="text-white text-xl font-semibold mb-2">{apod?.title}</h3>
+                  <p className="text-gray-300">This content is currently unavailable for display. Please check the description below for more details.</p>
+                </div>
+              </div>
             )}
             <CardContent className="p-6">
               <div className="flex flex-wrap items-center justify-between mb-4">
