@@ -99,34 +99,18 @@
 
 .moon-label {
   position: absolute;
-  bottom: -25px;
+  bottom: -18px;
   left: 50%;
   transform: translateX(-50%);
   background-color: rgba(100, 100, 100, 0.9);
   color: white;
-  padding: 3px 8px;
-  border-radius: 10px;
-  font-size: 12px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  font-size: 10px;
   font-weight: 500;
   white-space: nowrap;
   z-index: 40;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-}
-
-.moon-orbit-label {
-  position: absolute;
-  top: -30px;
-  right: -40px;
-  background-color: rgba(80, 80, 100, 0.8);
-  color: #e2e8f0;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-style: italic;
-  white-space: nowrap;
-  z-index: 45;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-  transform: rotate(-15deg);
 }
 
 /* Asteroid styling */

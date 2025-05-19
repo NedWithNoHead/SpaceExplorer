@@ -37,8 +37,7 @@ export default function AsteroidVisualizer({ asteroids, onSelectAsteroid }: Aste
         {/* Moon */}
         <div className="moon">
           <div className="moon-texture"></div>
-          <div className="moon-label">Moon</div>
-          <div className="moon-orbit-label">Luna</div>
+          <div className="moon-label">Luna</div>
         </div>
         
         {/* Asteroids */}
