@@ -2,23 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Earth, Moon, and Asteroid positions and animations */
+/* Solar system visualization with Earth at center */
 
-/* Earth styling and position */
-.earth-container {
-  left: 25%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 50;
+/* Container for the entire space system */
+.space-system {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
+/* Earth - prominent and centered */
 .earth {
-  width: 24px;
-  height: 24px;
+  position: absolute;
+  width: 40px;
+  height: 40px;
   background: radial-gradient(circle, #1e88e5, #0d47a1);
   border-radius: 50%;
-  box-shadow: 0 0 20px 5px rgba(59, 130, 246, 0.3);
-  position: relative;
+  box-shadow: 0 0 30px 10px rgba(59, 130, 246, 0.4);
+  z-index: 50;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .earth-surface {
@@ -27,75 +35,136 @@
   border-radius: 50%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ffffff' d='M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1 4.5a.5.5 0 11-1 0 .5.5 0 011 0zm-6 2a.5.5 0 11-1 0 .5.5 0 011 0zm2 .5a1 1 0 11-2 0 1 1 0 012 0zm8-1a1 1 0 11-2 0 1 1 0 012 0z'/%3E%3C/svg%3E");
   background-size: cover;
-  opacity: 0.4;
+  opacity: 0.5;
   animation: spin 60s linear infinite;
 }
 
-/* Moon styling and position */
-.moon-container {
-  right: 25%;
-  top: 50%;
-  transform: translate(50%, -50%);
-  z-index: 40;
+.earth-label {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(25, 100, 200, 0.8);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 50;
 }
 
+/* Moon orbit path */
+.moon-orbit-path {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+/* Moon */
 .moon {
-  width: 16px;
-  height: 16px;
+  position: absolute;
+  width: 12px;
+  height: 12px;
   background-color: #d1d5db;
   border-radius: 50%;
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-  position: relative;
+  z-index: 40;
+  top: 50%;
+  left: 50%;
+  animation: moon-orbit 30s linear infinite;
 }
 
-.moon-surface {
+.moon-label {
   position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 0%, transparent 40%);
-  animation: spin 20s linear infinite;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(100, 100, 100, 0.8);
+  color: white;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  white-space: nowrap;
+  z-index: 40;
 }
 
 /* Asteroid styling */
-.asteroid-surface {
-  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.3);
-}
-
-/* Asteroid positions - spaced out between Earth and Moon */
-.asteroid-1 {
-  left: 35%;
-  top: 32%;
+.asteroid {
+  position: absolute;
   z-index: 30;
-}
-
-.asteroid-2 {
-  left: 45%;
-  top: 45%;
-  z-index: 30;
-}
-
-.asteroid-3 {
-  left: 55%;
-  top: 55%;
-  z-index: 30;
-}
-
-.asteroid-4 {
-  left: 65%;
-  top: 40%;
-  z-index: 30;
-}
-
-.asteroid-5 {
+  top: 50%;
   left: 50%;
-  top: 65%;
-  z-index: 30;
 }
+
+.asteroid-body {
+  position: relative;
+  border-radius: 50%;
+}
+
+.asteroid-tooltip {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  width: 140px;
+  z-index: 100;
+}
+
+/* Asteroid orbit paths - each with different radius and timing */
+.asteroid-1 { animation: asteroid-orbit-1 15s linear infinite; }
+.asteroid-2 { animation: asteroid-orbit-2 20s linear infinite; }
+.asteroid-3 { animation: asteroid-orbit-3 25s linear infinite; }
+.asteroid-4 { animation: asteroid-orbit-4 18s linear infinite; }
+.asteroid-5 { animation: asteroid-orbit-5 22s linear infinite; }
 
 /* Animation keyframes */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes moon-orbit {
+  0% { transform: translate(-50%, -50%) rotate(0deg) translate(100px) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg) translate(100px) rotate(-360deg); }
+}
+
+/* Asteroid orbits - varying distances and starting positions */
+@keyframes asteroid-orbit-1 {
+  0% { transform: translate(-50%, -50%) rotate(0deg) translate(60px) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg) translate(60px) rotate(-360deg); }
+}
+
+@keyframes asteroid-orbit-2 {
+  0% { transform: translate(-50%, -50%) rotate(72deg) translate(75px) rotate(-72deg); }
+  100% { transform: translate(-50%, -50%) rotate(432deg) translate(75px) rotate(-432deg); }
+}
+
+@keyframes asteroid-orbit-3 {
+  0% { transform: translate(-50%, -50%) rotate(144deg) translate(50px) rotate(-144deg); }
+  100% { transform: translate(-50%, -50%) rotate(504deg) translate(50px) rotate(-504deg); }
+}
+
+@keyframes asteroid-orbit-4 {
+  0% { transform: translate(-50%, -50%) rotate(216deg) translate(90px) rotate(-216deg); }
+  100% { transform: translate(-50%, -50%) rotate(576deg) translate(90px) rotate(-576deg); }
+}
+
+@keyframes asteroid-orbit-5 {
+  0% { transform: translate(-50%, -50%) rotate(288deg) translate(70px) rotate(-288deg); }
+  100% { transform: translate(-50%, -50%) rotate(648deg) translate(70px) rotate(-648deg); }
 }
 
 :root {
