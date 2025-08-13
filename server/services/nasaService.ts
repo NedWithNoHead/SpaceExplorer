@@ -36,7 +36,7 @@ export async function getApod(date?: string): Promise<InsertApod> {
     const response = await axios.get(NASA_APOD_URL, { params });
     
     const apod: InsertApod = {
-      date: new Date(response.data.date),
+      date: response.data.date,
       title: response.data.title,
       explanation: response.data.explanation,
       url: response.data.url,
@@ -73,7 +73,7 @@ export async function getApodRange(startDate: string, endDate: string): Promise<
     });
     
     const apods: InsertApod[] = response.data.map((item: any) => ({
-      date: new Date(item.date),
+      date: item.date,
       title: item.title,
       explanation: item.explanation,
       url: item.url,
